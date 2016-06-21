@@ -1,8 +1,9 @@
 package exp;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class Lager {
+public class Lager implements Serializable{
 	
 	//Festlegung lager-weiter Variablen: 
 	
@@ -34,6 +35,6 @@ public class Lager {
 		lagerplatz.put(r.name(), r);
 	}
 	/*
-	 * Suche nach freiem Fach
+	 * Suche nach freiem Fach: offen...
 	 */
 }
