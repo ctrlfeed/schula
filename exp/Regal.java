@@ -45,14 +45,24 @@ public class Regal extends Lager{
 	//ueberpruefe alle Faecher auf freie Plaetze
 	public Fach[] getFreiraum(){
 		List<Fach> freiFaecher = new ArrayList<Fach>();
+		//freiFaecher ist das Result-Set als Variable Länge definiert...
+		//Überprüfung jedes Faches, wie viele/ob noch Plätze für Kartons frei sind
 		for (Fach potentialfrei : this.faecher.values()) {
 			if (potentialfrei.freiraum()>0){
 				freiFaecher.add(potentialfrei);
+				//in dem Fach ist noch Platz, wird in mögliche Ergebnisliste aufgenommen.
 			}
 		}
 		Fach[] effeff = new Fach[freiFaecher.size()];
 		effeff = freiFaecher.toArray(effeff);
 		return effeff;
+	}
+	public int getFreiplatz(Fach[] freiraum){
+		int freiplatz=0;
+		for (Fach fach : freiraum) {
+			freiplatz+=fach.freiraum();
+		}
+		return freiplatz;
 	}
 
 }

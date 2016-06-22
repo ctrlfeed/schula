@@ -1,13 +1,13 @@
 package exp;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Fach extends Regal{
 	private String bezeichner;
 	private int kapazitaet;
 	private Timestamp letzterZugriff;
-	private Karton[] inhalte;
+	private ArrayList<Karton> inhalte;
 	
 	protected Fach(String bez,int kap){
 		this.kapazitaet = kap;
@@ -17,7 +17,12 @@ public class Fach extends Regal{
 		return super.name()+"."+this.name();
 	}
 	public int freiraum(){
-		return kapazitaet - inhalte.length;
+		return kapazitaet - inhalte.size();
 	}
-
+	public void belegen(Karton ablegewert) throws fachvollException {
+		inhalte.add(ablegewert);
+		if (this.freiraum() < 0) {
+			throw new fachvollException();
+		}
+	}
 }

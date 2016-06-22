@@ -6,9 +6,21 @@ public class Karton extends Schuh{
 	private Fach adresse = null;
 	private String kartonID;
 	private Timestamp zugegangen;
-	public Karton(Fach adr){
-		this.adresse = adr;
+	
+	/*
+	 * Konstruktoren
+	 */
+	public Karton(){ 
 		this.zugegangen = new Timestamp(System.currentTimeMillis());
 		this.kartonID = getKartonID();
 	}
+	public Karton(Fach adr){
+		this();
+		this.adresse = adr;
+	}
+	public void ablegen(Fach lastseen) throws fachvollException {
+		lastseen.belegen(this);
+		this.adresse = lastseen;
+	}
+	
 }
