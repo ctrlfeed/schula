@@ -8,12 +8,15 @@ public class Regal extends Lager{
 	private Hashtable<String, Fach> faecher;
 	private String bezeichner;
 	
-	//Konstruktoren:
-	//ohne Parameter -> Annahme der Dimensionen 1x1 und Kapazitaet 1;
+	/* Konstruktoren:
+	 * ohne Parameter -> Annahme der Dimensionen 1x1 und Kapazitaet 1;
+	 */
 	protected Regal(){
 		this(1,1,1);
 	}
-	//nur in einer Dimension -> Annahme der anderen Dimensionen = 1
+	/*
+	 * nur in einer Dimension -> Annahme der anderen Dimensionen = 1
+	 */
 	protected Regal(int anzahl){
 		this(anzahl, 1, 1);
 	}

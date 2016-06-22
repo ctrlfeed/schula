@@ -13,6 +13,7 @@ public class Karton extends Schuh{
 	public Karton(){ 
 		this.zugegangen = new Timestamp(System.currentTimeMillis());
 		this.kartonID = getKartonID();
+		lassliegen(this);
 	}
 	public Karton(Fach adr){
 		this();
@@ -22,5 +23,10 @@ public class Karton extends Schuh{
 		lastseen.belegen(this);
 		this.adresse = lastseen;
 	}
-	
+	public Fach whereat(){
+		return this.adresse;
+	}
+	public boolean isUmlauf(){
+		return adresse.equals(umlauf);
+	}
 }
