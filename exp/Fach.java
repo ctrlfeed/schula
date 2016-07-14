@@ -25,4 +25,12 @@ public class Fach extends Regal{
 			throw new fachvollException();
 		}
 	}
+	public void nehme(Karton aufnahmewert){
+		try {
+			inhalte.remove(aufnahmewert);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Der Karton " + aufnahmewert.getID() + " ist nicht in diesem Fach und kann nicht entfernt werden.");
+		}
+	}
 }

@@ -19,14 +19,21 @@ public class Karton extends Schuh{
 		this();
 		this.adresse = adr;
 	}
-	public void ablegen(Fach lastseen) throws fachvollException {
-		lastseen.belegen(this);
-		this.adresse = lastseen;
+	/*
+	 * Methoden
+	 */
+	public void ablegen(Fach whereto) throws fachvollException {
+		this.adresse.nehme(this);
+		whereto.belegen(this);
+		this.adresse = whereto;
 	}
 	public Fach whereat(){
 		return this.adresse;
 	}
 	public boolean isUmlauf(){
-		return adresse.equals(umlauf);
+		return this.adresse.equals(umlauf);
+	}
+	public String getID(){
+		return this.kartonID;
 	}
 }

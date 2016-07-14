@@ -1,6 +1,7 @@
 package exp;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Lager implements Serializable{
@@ -26,8 +27,6 @@ public class Lager implements Serializable{
 		return Integer.toString(++RegalIter, 16);
 	}
 	
-	
-	
 	/*Abbildung des "Lagers" --> Sammlung von Regalen, durch Hashtable hier flexibel gehalten,
 	 * um eine Erweiterung und dabei konsistente Haltung zu ermöglichen.
 	 * 
@@ -45,15 +44,24 @@ public class Lager implements Serializable{
 		Regal r = new Regal(breite, hoehe, kap);
 		this.lagerplatz.put(r.name(), r);
 	}
-	private Fach umlauf;
+	
+	protected static Fach umlauf;
+	
+	/*
+	 * Methoden:
+	 */
 	protected void lassliegen(Karton uberbleibsel){
 		uberbleibsel.ablegen(umlauf);
 	}
 	public void verkaufen(Karton abgang){
-		try {
-			abgang.finalize();
-		} catch(Exception e) {
-			System.out.println(e);
+		if (abgang.isUmlauf()){
+			try {
+				abgang.finalize();
+			} catch(Exception e) {
+				System.out.println(e);
+			}
+		}else {
+			lassliegen(abgang);
 		}
 	}
 	
@@ -70,12 +78,21 @@ public class Lager implements Serializable{
 	/*
 	 * Suche nach freiem Fach: in Arbeit...
 	 */
+	
 	 public Fach[] platzfinden(int verstaumenge){
+		ArrayList<Fach> resultset = null;
 		for (Regal reg : this.lagerplatz.values()) {
 			//bevorzugtes Verstauen in einem Regal
 			if (reg.getFreiplatz(reg.getFreiraum()) >= verstaumenge){
-				return reg.getFreiraum();
+				resultset.clear();
+				for (Fach fach : reg.getFreiraum()) {
+					resultset.add(fach);
+				}
+				
 			}
 		}	
+	}
+	public void wareAnnehmen(Schuh neuWare){
+		
 	}
 }
