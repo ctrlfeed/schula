@@ -76,7 +76,7 @@ public class Lager implements Serializable{
 		}
 	}
 	/*
-	 * Suche nach freiem Fach: in Arbeit...
+	 * Suche nach freiem Fach: in Arbeit.....
 	 */
 	
 	 public Fach[] platzfinden(int verstaumenge){
