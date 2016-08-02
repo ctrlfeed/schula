@@ -108,7 +108,15 @@ public class SchuLa implements Serializable{
 	protected static String generateRegalID(){
 		return Integer.toString(++RegalItr, 16);
 	}
-	
+
+	/*
+	 * @addRegal: Eine Neue Instanz eines Regals wird per Konstruktor aufgerufen und
+	 * anschließend in die Verwaltung Lagerplatz unmittelbar aufgenommen. 
+	 */
+	protected void addRegal(){
+		Regal r = new Regal();
+		this.lagerplatz.put(r.name(), r);
+	}
 	
 	
 // ##################################
@@ -118,16 +126,12 @@ public class SchuLa implements Serializable{
 	
 	/*Abbildung des "Lagers" --> Sammlung von Regalen, durch Hashtable hier flexibel gehalten,
 	 * um eine Erweiterung und dabei konsistente Haltung zu ermöglichen.
-	 * 
 	 * Weiterhin eines "unlauf"-pseudo-regals, als unbestimmter Ort, an dem Schuhkartons verweilen können,
 	 * allerdings dann nicht gezielt findbar sind. (trotzdem noch im Unternehmen,
 	 * nur eben woanders als im Lager entweder also beim Kunden zur Anprobe, in Reinigung oder im Verkauf
 	 * bei Verkauf, würde der Karton finalized werden.
 	 */
-	protected void addRegal(){
-		Regal r = new Regal();
-		this.lagerplatz.put(r.name(), r);
-	}
+
 	protected void addRegal(int breite, int hoehe, int kap){
 		Regal r = new Regal(breite, hoehe, kap);
 		this.lagerplatz.put(r.name(), r);
