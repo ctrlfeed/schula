@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class Regal extends Lager{
+public class Regal extends SchuLa{
 	private Hashtable<String, Fach> faecher;
 	private String bezeichner;
 	
@@ -25,7 +25,7 @@ public class Regal extends Lager{
 	}
 	protected Regal(int breite, int hoehe, int kap){
 		if (breite > 0 && hoehe > 0){
-			this.bezeichner = getRegalID();
+			this.bezeichner = generateRegalID();
 			for (int i = 1; i <= breite; i++) { //Spalten im Regal
 				for (int j = 0; j < hoehe; j++) { //Zeilen im Regal
 					Fach f = new Fach(this.bezeichner + "." + Integer.toString(i) + "-" + Integer.toString(j), kap);

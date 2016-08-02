@@ -3,7 +3,7 @@ package exp;
 import java.util.ArrayList;
 import java.sql.Timestamp;
 
-public class Schuh extends Lager{
+public class Schuh extends SchuLa{
 	private String schuhID;
 	private ArrayList<Karton> exemplare;
 	private String marke;
@@ -12,10 +12,10 @@ public class Schuh extends Lager{
 	private String stil;
 	private String name;
 	public Schuh(){
-		this.schuhID = super.getSchuhID();
+		this.schuhID = super.generateSchuhID();
 	}
 	public Schuh(String schuhmarke, int schuhgroesse, String schuhfarbe, String schuhart, String schuhname){
-		this.schuhID = super.getSchuhID();
+		this.schuhID = super.generateSchuhID();
 		this.marke = schuhmarke;
 		this.groesse = schuhgroesse;
 		this.farbe = schuhfarbe;

@@ -12,7 +12,7 @@ public class Karton extends Schuh{
 	 */
 	public Karton(){ 
 		this.zugegangen = new Timestamp(System.currentTimeMillis());
-		this.kartonID = getKartonID();
+		this.kartonID = generateKartonID();
 		lassliegen(this);
 	}
 	public Karton(Fach adr){
