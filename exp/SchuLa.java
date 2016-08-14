@@ -1,7 +1,6 @@
 package exp;
 
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -33,31 +32,13 @@ public class SchuLa extends File implements Serializable{
 	 *     die wiederum selbst als privates Datenelement in der Klasse gespeichert wird.
 	 */
 	
-//oeffentlicher Bereich: ALLE UNFERTIG
+//oeffentlicher Bereich: 
 	/*
-	 * @init: Initilialiserung der Software erfolgt durch erzeugung einer neuen Instanz. Um Persistenz zu ermöglichen wird
-	 * zwingend ein Pfad angegeben, in dem ein Log geführt wird und die serialiserten Elemente gespiechert werden.
-	 */
-	public SchuLa(File speicherort){
-		//bei Öffnen des Programmes, prüfe ob als Pfad ein serialisiertes SchuLa File festgelegt wurde, oder ob eine neue Instanz eröffnet wird.
-		//lege den Speicher- und Arbeitsort der Klasse und des Programmes fest.
-		if (speicherort.isDirectory()){
-			String[] vorgehensoptionen = new String[]{"Neue Instanz", "Alte laden", "Abbrechen"};
-			
-			
-		} else {
-			if speicherort.getName().endsWith("sll"){
-				thisishome = speicherort.getAbsoluteFile();
-			}
-			
-		}
-	}
-	
-	/*
-	 * erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
+	 * @getSchuhList(): erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
 	 * Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprägt sind, die Anderen leer.
 	 * Die Methode gibt Schuhe sortiert nach Anzahl der übereinstimmenden Merkmale maximal in Länge des Limits zurück.
 	 * Ist Limit auf "0" gesetzt, werden alle Schuhe mitgegeben, die in mindestens einem Merkmal übereinstimmen.
+	 * Diese Option ist geschuetzt, da sie sich laufzeitkritisch auswirken kann. (siehe unten)
 	 */
 	public Schuh[] getSchuhlist(Schuh Vergleichswert, int Limit){
 		Hashtable<String, Integer> resultset = new Hashtable<String, Integer>();
@@ -115,23 +96,6 @@ public class SchuLa extends File implements Serializable{
 		}
 		return ((Schuh[]) suchergebnis.toArray());
 	}
-	//Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer Übereinstimmung zurückgegeben. (Inventur)
-	//geschuetzt da Laufzeitkritisch
-	Schuh[] Inventur(){
-		return this.getSchuhlist();
-	}
-	Schuh[] getSchuhlist(){
-		ArrayList<Schuh> suchergebnis = new ArrayList<Schuh>();
-		for (Entry entry : schuhkatalog.entrySet()) {
-			//nur vorraetige Exemplare pruefen
-			if (((Schuh) entry.getValue()).getAnzahl() > 0){
-				Schuh siterate = (Schuh) entry.getValue();
-				suchergebnis.add(siterate);
-			}
-		}
-		return ((Schuh[]) suchergebnis.toArray());
-	}
-	
 	//Ein Schuh soll mittels einer SchuhID oder KartonID auffindbar sein.
 	//Welche Form Identifier sollte dabei von der Funktion selbst evaluiert werden.
 	public Fach[] finde(String Identifier){
@@ -262,6 +226,7 @@ public class SchuLa extends File implements Serializable{
 	void addKarton(Schuh schuhzugang){
 		Karton k = new Karton(schuhzugang);
 	}
+	//funktional Reihenfolge: der Karton wird erst ins Unternehmen aufgenommen und dann dem Fach zugewiesen.
 	void addKarton(Schuh schuhzugang, Fach initialort){
 		Karton k = new Karton(schuhzugang);
 		k.ablegen(initialort);
@@ -269,4 +234,26 @@ public class SchuLa extends File implements Serializable{
 	void moveKarton(Karton versetzterK, Fach neuesFach){
 		versetzterK.ablegen(neuesFach);
 	}
+	/*
+	 * @getSchuhList(null):Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer 
+	 * Übereinstimmung zurückgegeben. (Inventur) -- geschuetzt da Laufzeitkritisch
+	 */
+	Schuh[] Inventur(){
+		return this.getSchuhlist();
+	}
+	Schuh[] getSchuhlist(){
+		//ergbenis wird zunaechst in groessenvariabler ArrayList zwischengespeichert.
+		ArrayList<Schuh> suchergebnis = new ArrayList<Schuh>();
+		for (Entry entry : schuhkatalog.entrySet()) {
+			//nur vorraetige Exemplare pruefen
+			if (((Schuh) entry.getValue()).getAnzahl() > 0){
+				Schuh siterate = (Schuh) entry.getValue();
+				suchergebnis.add(siterate);
+			}
+		}
+		//keine Sortierung der Ergebnisse
+		return ((Schuh[]) suchergebnis.toArray());
+	}
+
+
 }
