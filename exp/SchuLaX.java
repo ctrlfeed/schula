@@ -7,6 +7,26 @@ public class SchuLaX extends SchuLa {
 	 */
 	
 //oeffentlicher Bereich:
+	public boolean changeKey(String oldKey, String newKey1, String newKey2){
+		if (newKey1 == newKey2 && oldKey == masterKey){
+			masterKey = newKey1;
+			try {
+				Thread.sleep((long) (Math.random()*1000));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.getMessage();
+			}
+			return true;
+		} else {
+			try {
+				Thread.sleep((long) (Math.random()*1000));
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.getMessage();
+			}
+			return false;
+		}
+	}
 	/*
 	 * @super: folgende Methoden werden der superclass uebernommen.
 	 * um eine Konsistenz der Objeckte sicherzustellen wird entsprechend auf das Mutterobjeckt verwiesen.
@@ -28,10 +48,12 @@ public class SchuLaX extends SchuLa {
 		Fach[] gefundenIn = super.finde(Identifier);
 		return gefundenIn;
 	}
-	
-	public newSchuh(Schuh neuerSchuh){
-		Schuh closesMatch = super.getSchuhlist(neuerSchuh, 1)[0];
+	public Fach[] platzfuer(int verstaumenge, boolean zusammenhaengend){
+		return super.platzfuer(verstaumenge, zusammenhaengend);
+	}
+	public void addRegal(Schuh neuerSchuh){
 		
 	}
 //geschuetzter Bereich
+	private String masterKey = "SchuLa2016";
 }
