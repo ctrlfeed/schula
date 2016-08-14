@@ -27,9 +27,7 @@ public class Fach extends Regal implements Serializable{
 		}
 	}
 	public void nehme(Karton aufnahmewert){
-		try {
-			inhalte.remove(aufnahmewert);
-		} catch (Exception e) {
+		if (!inhalte.remove(aufnahmewert)){
 			// TODO: handle exception
 			System.out.println("Der Karton " + aufnahmewert.getID() + " ist nicht in diesem Fach und kann nicht entfernt werden.");
 		}
