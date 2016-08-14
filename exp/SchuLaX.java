@@ -2,15 +2,15 @@ package exp;
 
 public class SchuLaX extends SchuLa {
 	/*
-	 * @ueber: Diese Klasse bietet zusätzliche Administrative und Management-Funktionen, die nicht allgemein-gueltig
+	 * @info: Diese Klasse bietet zusätzliche Administrative und Management-Funktionen, die nicht allgemein
 	 * verfuegbar sein sollen.
-	 * Sie sind dadurch durch ein Kennwort (siehe private String MasterKey unten) geschützt.
-	 * Diese Klasse erlaubt trotzdem die Nutzung aller Funktionen, die SchuLa zulässt.
 	 */
 	
 //oeffentlicher Bereich:
 	/*
-	 * @super: folgende Methoden werden der superclass uebergeben.
+	 * @super: folgende Methoden werden der superclass uebernommen.
+	 * um eine Konsistenz der Objeckte sicherzustellen wird entsprechend auf das Mutterobjeckt verwiesen.
+	 * Durch die Referenzierung werden die Objekte über die Mutterklasse bezogen, statt in dieser Instanz separat geführt zu werden.
 	 */
 	public Schuh[] getSchuhlist(Schuh Vergleichswert, int Limit){
 		Schuh[] suchergebnis = super.getSchuhlist(Vergleichswert, Limit);
@@ -28,4 +28,10 @@ public class SchuLaX extends SchuLa {
 		Fach[] gefundenIn = super.finde(Identifier);
 		return gefundenIn;
 	}
+	
+	public newSchuh(Schuh neuerSchuh){
+		Schuh closesMatch = super.getSchuhlist(neuerSchuh, 1)[0];
+		
+	}
+//geschuetzter Bereich
 }

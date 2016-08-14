@@ -1,10 +1,11 @@
 package exp;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class SchuLa implements Serializable{
+public class SchuLa extends File implements Serializable{
 	/*
 	 * @author: Carl L. Fritze
 	 * @ansatz: SchuLa bildet den Single-point-of-Access, also den ausgewiesenen Anknuepfpunkt für 
@@ -29,13 +30,20 @@ public class SchuLa implements Serializable{
 	 */
 	
 //oeffentlicher Bereich: ALLE UNFERTIG
-	
+	/*
+	 * @init: Initilialiserung der Software erfolgt durch erzeugung einer neuen Instanz. Um Persistenz zu ermöglichen wird
+	 * zwingend ein Pfad angegeben, in dem ein Log geführt wird und die serialiserten Elemente gespiechert werden.
+	 */
+	public SchuLa(File speicherort){
+		
+	}
 	//erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
 	//Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprägt sind, die Anderen leer.
 	//Die Methode gibt Schuhe sortiert nach Anzahl der übereinstimmenden Merkmale maximal in Länge des Limits zurück.
 	//Ist Limit auf "0" gesetzt, werden alle Schuhe mitgegeben, die in mindestens einem Merkmal übereinstimmen.
 	public Schuh[] getSchuhlist(Schuh Vergleichswert, int Limit){
 		Schuh[] suchergebnis = null;
+		For each 
 		return suchergebnis;
 	}
 	//Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer Übereinstimmung zurückgegeben.
@@ -52,6 +60,9 @@ public class SchuLa implements Serializable{
 	}
 	
 //geschuetzte Objekte:
+	/*
+	 * @path
+	 */
 	/* 
 	 * @Itr: Um eine eindeutige, instanzweite Identifizierung zu ermöglichen, wird fuer alle wiederkehrende Elemente 
 	 * je eine fortlaufende Nummer gefuehrt, die allerdings nicht direkt vergeben wird. Stattdessen ist sie ueber 
@@ -82,11 +93,11 @@ public class SchuLa implements Serializable{
 	 *  + Eine Hashtable laesst einen Parallelen Zugriff zu. Unter dem Gedanken, dass perspektivisch mehrere Anfragen
 	 *    parallel gestellt würden, ließe dies einen performanten Vorteil zu.
 	 *  + Eine Hashtable sichert von sich aus, dass sie lückenfrei bleibt und sichert somit Konsistenz.
-	 *  Als Werte wurden die Klasse Regal (unmittelbar) gewählt, da so das Objekt direkt referenziert wird und somit
-	 *  die verwalteten Regal nicht als separate Objekte und Klassen außerhalb der Umgebung ansteuerbar sein mussten.
-	 *  Als Key wurde jeweils die Regal-ID gewählt, um so die Transparenz über die Klassen zu halten.
-	 *  "Ein Regal wird durch die ID gefunden. Ein Regal selbst weisst gleiche ID als Konstante aus, um ueberpruefbar 
-	 *  und verfolgbar zu sein.
+	 *  Als Werte wurden die Klassen Regal und Schuh (unmittelbar) gewählt, da so das Objekt direkt referenziert wird und somit
+	 *  die verwalteten Objekte nicht als separate Objekte und Klassen außerhalb der Umgebung ansteuerbar sein muessen.
+	 *  Als Key wurde jeweils die Regal-ID gewaehlt, um so die Transparenz über die Klassen zu halten.
+	 *  Ein Regal, wie ein Schuh ist dabei grundsätzlich durch die jeweilige ID eindeutig identifizierbar.
+	 *    
 	 */
 	private Hashtable<String, Regal> lagerplatz;
 	
@@ -94,30 +105,38 @@ public class SchuLa implements Serializable{
 	
 // geschuetzte Methoden:
 	/*
-	 * @ID-Vergabe: Beim Erfassen neuer Elemente (Schuh, Karton, Regal) ruft der Konstruktor der jeweiligen Klasse folgende
-	 * Methode auf, die in Abhängigkeit des anfragenden Objektes einen entsprechenden eindeutigen Identifier generiert.
-	 * Um die Eindeutigkeit zu sichern, wird der zuvor definierte Iterator verwendet, der bei jeder ID Anfrage den jeweiligen
-	 * Klassenzaehler um eins erhoeht. 
+	 * @ID-Vergabe:  
 	 */
 	protected static String generateKartonID(){
-		return Integer.toString(++KartonItr, 16);
+		return Integer.toString(++KartonItr, 16) + "K";
 	}
 	protected static String generateSchuhID(){
-		return Integer.toString(++SchuhItr, 16);
+		return Integer.toString(++SchuhItr, 16) + "S";
 	}
 	protected static String generateRegalID(){
-		return Integer.toString(++RegalItr, 16);
+		return Integer.toString(++RegalItr, 16) + "R";
 	}
 
 	/*
 	 * @addRegal: Eine Neue Instanz eines Regals wird per Konstruktor aufgerufen und
-	 * anschließend in die Verwaltung Lagerplatz unmittelbar aufgenommen. 
+	 * anschließend in die Verwaltung Lagerplatz unmittelbar aufgenommen.
+	 * Das neu erfasste Regal ist dadurch zur Speicherung von Objekten verfügbar. 
 	 */
-	protected void addRegal(){
+	void addRegal(){
 		Regal r = new Regal();
 		this.lagerplatz.put(r.name(), r);
 	}
-	
+	void endRegal(Regal altRegal){
+		if (altRegal.empty()) {
+			this.lagerplatz.remove(altRegal.getID());
+		} else {
+			System.out.println("In dem Regal befinden sich noch Elemente. Bitte entferne diese, um das Regal anschließend zu löschen.");
+		}
+	}
+	void addSchuh(){
+		Schuh s = new Schuh();
+		this.schuhkatalog.put(s.getID(), s);
+	}
 	
 // ##################################
 	
