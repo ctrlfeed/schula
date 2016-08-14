@@ -6,7 +6,8 @@ import java.sql.Timestamp;
 
 public class Schuh implements Serializable{
 	private String schuhID;
-	private ArrayList<Karton> exemplare;
+	private ArrayList<Karton> vorrat;
+	private ArrayList<Karton> ehemalig; //im Sinne von veraeussert...
 	private String marke;
 	private int groesse;
 	private String farbe;
@@ -26,7 +27,7 @@ public class Schuh implements Serializable{
 	}
 	//finde die Anzahl der vorhandenen Exemplare
 	public int getAnzahl(){
-		return this.exemplare.size();
+		return this.vorrat.size();
 	}
 	public String getID(){
 		return this.schuhID;
@@ -45,5 +46,8 @@ public class Schuh implements Serializable{
 	}
 	public String getName(){
 		return this.name;
+	}
+	Karton[] getKarton(){
+		return (Karton[]) this.vorrat.toArray();
 	}
 }

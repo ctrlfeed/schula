@@ -3,7 +3,11 @@ package exp;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map.Entry;
+
+import javax.swing.JOptionPane;
 
 public class SchuLa extends File implements Serializable{
 	/*
@@ -35,21 +39,97 @@ public class SchuLa extends File implements Serializable{
 	 * zwingend ein Pfad angegeben, in dem ein Log geführt wird und die serialiserten Elemente gespiechert werden.
 	 */
 	public SchuLa(File speicherort){
-		
+		//bei Öffnen des Programmes, prüfe ob als Pfad ein serialisiertes SchuLa File festgelegt wurde, oder ob eine neue Instanz eröffnet wird.
+		//lege den Speicher- und Arbeitsort der Klasse und des Programmes fest.
+		if (speicherort.isDirectory()){
+			String[] vorgehensoptionen = new String[]{"Neue Instanz", "Alte laden", "Abbrechen"};
+			
+			
+		} else {
+			if speicherort.getName().endsWith("sll"){
+				thisishome = speicherort.getAbsoluteFile();
+			}
+			
+		}
 	}
-	//erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
-	//Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprägt sind, die Anderen leer.
-	//Die Methode gibt Schuhe sortiert nach Anzahl der übereinstimmenden Merkmale maximal in Länge des Limits zurück.
-	//Ist Limit auf "0" gesetzt, werden alle Schuhe mitgegeben, die in mindestens einem Merkmal übereinstimmen.
+	
+	/*
+	 * erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
+	 * Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprägt sind, die Anderen leer.
+	 * Die Methode gibt Schuhe sortiert nach Anzahl der übereinstimmenden Merkmale maximal in Länge des Limits zurück.
+	 * Ist Limit auf "0" gesetzt, werden alle Schuhe mitgegeben, die in mindestens einem Merkmal übereinstimmen.
+	 */
 	public Schuh[] getSchuhlist(Schuh Vergleichswert, int Limit){
-		Schuh[] suchergebnis = null;
-		For each 
-		return suchergebnis;
+		Hashtable<String, Integer> resultset = new Hashtable<String, Integer>();
+		for (Entry entry : schuhkatalog.entrySet()) {
+			//nur vorraetige Exemplare pruefen
+			if (((Schuh) entry.getValue()).getAnzahl() > 0){
+				Schuh siterate = (Schuh) entry.getValue();
+				//die Zahl der übereinstimmenden Merkmale wird festgehalten, um eine Sortierung vornehmen zu können.
+				int score = 0;
+				if ((siterate.getMarke() == Vergleichswert.getMarke()) && (siterate.getMarke() != null)){
+					score +=1;
+				}
+				if ((siterate.getGroesse() == Vergleichswert.getGroesse()) && (siterate.getGroesse() != 0)){
+					score +=1;
+				}
+				if ((siterate.getStil() == Vergleichswert.getStil()) && (siterate.getStil() != null)){
+					score +=1;
+				}
+				if ((siterate.getFarbe() == Vergleichswert.getFarbe()) && (siterate.getFarbe() != null)){
+					score +=1;
+				}
+				if ((siterate.getName() == Vergleichswert.getName()) && (siterate.getName() != null)){
+					score +=1;
+				}
+				if (score > 0){
+					resultset.put(siterate.getID(), score);
+				}
+			}
+			//bei Ergebnislimitierung, entferne den verschiedensten Suchwert
+			if ((Limit > 0) &&(resultset.size() > Limit)){
+				String leastcommon = null;
+				int least = 6;
+				for (String resultID : resultset.keySet()) {
+					if (resultset.get(resultID) < least){
+						leastcommon = resultID;
+						least = resultset.get(resultID);
+					}
+				}
+				resultset.remove(leastcommon);
+			}
+			//trimmen ende, prüfe nächstes Element
+		}
+		//durchsuchen des Schuhkataloges und vorraetiger Elemente abgeschlossen.
+		//das ergebnis wird aus der variablen Hashtable in ein Feld fixer Größe überführt.
+		ArrayList<Schuh> suchergebnis = new ArrayList<Schuh>();
+		for (String resID : resultset.keySet()){
+			//in Liste einsortieren, neue Elemente groesserer aehnlichkeit weiter nach vorn.
+			//iterator durch die Liste
+			int posi = 0;
+			//setze einfuegepunkt weiter, wenn element gleich viele oder weniger uebereinstimmungen hat.
+			while (resultset.get(resID) > resultset.get(suchergebnis.get(posi).getID()) && posi > suchergebnis.size()) {
+				++posi;
+			}
+			suchergebnis.add(posi, schuhkatalog.get(resID));
+		}
+		return ((Schuh[]) suchergebnis.toArray());
 	}
-	//Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer Übereinstimmung zurückgegeben.
-	public Schuh[] getSchuhlist(Schuh Vergleichswert){
-		Schuh[] suchergebnis = getSchuhlist(Vergleichswert, 0);
-		return suchergebnis;
+	//Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer Übereinstimmung zurückgegeben. (Inventur)
+	//geschuetzt da Laufzeitkritisch
+	Schuh[] Inventur(){
+		return this.getSchuhlist();
+	}
+	Schuh[] getSchuhlist(){
+		ArrayList<Schuh> suchergebnis = new ArrayList<Schuh>();
+		for (Entry entry : schuhkatalog.entrySet()) {
+			//nur vorraetige Exemplare pruefen
+			if (((Schuh) entry.getValue()).getAnzahl() > 0){
+				Schuh siterate = (Schuh) entry.getValue();
+				suchergebnis.add(siterate);
+			}
+		}
+		return ((Schuh[]) suchergebnis.toArray());
 	}
 	
 	//Ein Schuh soll mittels einer SchuhID oder KartonID auffindbar sein.
@@ -58,11 +138,32 @@ public class SchuLa extends File implements Serializable{
 		Fach[] gefundenIn = null;
 		return gefundenIn;
 	}
+	public Fach[] platzfuer(int verstaumenge, boolean zusammenhaengend){
+		ArrayList<Fach> resultset = null;
+		for (Regal reg : lagerplatz.values()) {
+			//bevorzugtes Verstauen in einem Regal
+			if (reg.getFreiplatz(reg.getFreiraum()) >= verstaumenge || !zusammenhaengend){
+				for (Fach fach : reg.getFreiraum()) {
+					if (resultset.size() < verstaumenge)
+					resultset.add(fach);
+				}
+			}
+		}
+		//wenn es nicht möglich gewesen sein sollte die Verstaumenge in einem Regal unter zu bringen,
+		//wäre zu erwarten, dass "resultset" nicht mit Fächern gefüllt wäre. Für den Fall sollte eine nicht zusammenhängende Variante gewählt werden.
+		if (resultset.size() < verstaumenge && zusammenhaengend){
+			return platzfuer(verstaumenge-resultset.size(),false);
+		} else {
+			System.out.println("Unzureichend Lagerplatz für diese Menge.");
+		}
+		return (Fach[]) (resultset.toArray());
+	}
 	
 //geschuetzte Objekte:
 	/*
-	 * @path
+	 * @path: Dies markeirt den Speicherort, in dem SchuLa serialisiert wird und von wo SchuLa geladen wird.
 	 */
+	private File thisishome;
 	/* 
 	 * @Itr: Um eine eindeutige, instanzweite Identifizierung zu ermöglichen, wird fuer alle wiederkehrende Elemente 
 	 * je eine fortlaufende Nummer gefuehrt, die allerdings nicht direkt vergeben wird. Stattdessen ist sie ueber 
@@ -99,9 +200,19 @@ public class SchuLa extends File implements Serializable{
 	 *  Ein Regal, wie ein Schuh ist dabei grundsätzlich durch die jeweilige ID eindeutig identifizierbar.
 	 *    
 	 */
-	private Hashtable<String, Regal> lagerplatz;
+	private static Hashtable<String, Regal> lagerplatz;
 	
-	private Hashtable<String, Schuh> schuhkatalog;
+	private static Hashtable<String, Schuh> schuhkatalog;
+	
+	//Zugriff im Package notwendig:
+	/*
+	 * @umlauf:  Defnition zweier Pseudo-regale, als unbestimmter Ort, an dem Schuhkartons verweilen können,
+	 * allerdings dann nicht gezielt findbar sind. (trotzdem noch im Unternehmen, etwa in der Auslage oder Anprobe)
+	 * Veräußerte Kartons werden dem Fach abgang zugeordnet, sodass die Kartons mit abgangsdatum nachvollziehbar 
+	 * weiterhin erfasst sind.
+	 */
+	static Fach umlauf;
+	static Fach abgang;
 	
 // geschuetzte Methoden:
 	/*
@@ -124,86 +235,38 @@ public class SchuLa extends File implements Serializable{
 	 */
 	void addRegal(){
 		Regal r = new Regal();
-		this.lagerplatz.put(r.name(), r);
+		lagerplatz.put(r.getID(), r);
+	}
+	void addRegal(int breite, int hoehe, int kap){
+		Regal r = new Regal(breite, hoehe, kap);
+		lagerplatz.put(r.getID(), r);
 	}
 	void endRegal(Regal altRegal){
-		if (altRegal.empty()) {
-			this.lagerplatz.remove(altRegal.getID());
+		if (altRegal.isEmpty()) {
+			lagerplatz.remove(altRegal.getID());
 		} else {
 			System.out.println("In dem Regal befinden sich noch Elemente. Bitte entferne diese, um das Regal anschließend zu löschen.");
 		}
 	}
-	void addSchuh(){
-		Schuh s = new Schuh();
-		this.schuhkatalog.put(s.getID(), s);
-	}
-	
-// ##################################
-	
-	
-// ALTER ENTWURF: in Schema zu uebertragen...	
-	
-	/*Abbildung des "Lagers" --> Sammlung von Regalen, durch Hashtable hier flexibel gehalten,
-	 * um eine Erweiterung und dabei konsistente Haltung zu ermöglichen.
-	 * Weiterhin eines "unlauf"-pseudo-regals, als unbestimmter Ort, an dem Schuhkartons verweilen können,
-	 * allerdings dann nicht gezielt findbar sind. (trotzdem noch im Unternehmen,
-	 * nur eben woanders als im Lager entweder also beim Kunden zur Anprobe, in Reinigung oder im Verkauf
-	 * bei Verkauf, würde der Karton finalized werden.
-	 */
-
-	protected void addRegal(int breite, int hoehe, int kap){
-		Regal r = new Regal(breite, hoehe, kap);
-		this.lagerplatz.put(r.name(), r);
-	}
-	
-	protected static Fach umlauf;
-	
 	/*
-	 * Methoden:
+	 * @addSchuh(): hinzufügen einer neuen Schuh-instanz als Eigenschaftskombination, der dann Kartons zugeordnet werden können.
 	 */
-	protected void lassliegen(Karton uberbleibsel){
-		uberbleibsel.ablegen(umlauf);
-	}
-	public void verkaufen(Karton abgang){
-		if (abgang.isUmlauf()){
-			try {
-				abgang.finalize();
-			} catch(Exception e) {
-				System.out.println(e);
-			}
-		}else {
-			lassliegen(abgang);
-		}
-	}
-	
-	public void wegraeumen(Karton[] stauware){
-		Fach[] ablage = platzfinden(stauware.length);
-		for (Karton schachtel : stauware) {
-			try{
-				
-			} catch(fachvollException f){
-				
-			}
-		}
+	void addSchuh(Schuh eingabeschuh){
+		Schuh s = new Schuh(eingabeschuh.getStil(),eingabeschuh.getGroesse(),eingabeschuh.getFarbe(),eingabeschuh.getStil(),eingabeschuh.getName());
+		schuhkatalog.put(s.getID(), s);
 	}
 	/*
-	 * Suche nach freiem Fach: in Arbeit.....
+	 * addKarton(... ): Nehme einen neuen Karton in den Bestand auf/bilde ihn in dem System ab.
+	 * Ohne spezifizierten Rückgabewert findet, wird der Ort "umlauf" angenommen.
 	 */
-	
-	 public Fach[] platzfinden(int verstaumenge){
-		ArrayList<Fach> resultset = null;
-		for (Regal reg : this.lagerplatz.values()) {
-			//bevorzugtes Verstauen in einem Regal
-			if (reg.getFreiplatz(reg.getFreiraum()) >= verstaumenge){
-				resultset.clear();
-				for (Fach fach : reg.getFreiraum()) {
-					resultset.add(fach);
-				}
-				
-			}
-		}	
+	void addKarton(Schuh schuhzugang){
+		Karton k = new Karton(schuhzugang);
 	}
-	public void wareAnnehmen(Schuh neuWare){
-		
+	void addKarton(Schuh schuhzugang, Fach initialort){
+		Karton k = new Karton(schuhzugang);
+		k.ablegen(initialort);
+	}
+	void moveKarton(Karton versetzterK, Fach neuesFach){
+		versetzterK.ablegen(neuesFach);
 	}
 }

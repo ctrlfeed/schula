@@ -8,6 +8,7 @@ public class Karton extends Schuh implements Serializable{
 	private String kartonID;
 	private Timestamp zugang = null;
 	private Timestamp abgang;
+	private Schuh inhalt;
 	
 // Konstruktoren
 
@@ -16,18 +17,13 @@ public class Karton extends Schuh implements Serializable{
 		this.kartonID = SchuLa.generateKartonID();
 		this.ablegen(SchuLa.umlauf);
 	}
-	public Karton(Fach adr){
+	public Karton(Schuh ofTyp){
 		this();
-		this.adresse = adr;
+		this.inhalt = ofTyp;
 	}
 
 // oeffentliche Methoden
-	 public void setFach(Fach whereto) throws fachvollException {
-		this.adresse.nehme(this);
-		whereto.belegen(this);
-		this.adresse = whereto;
-	}
-	public Fach getFach(){
+	 public Fach getFach(){
 		return this.adresse;
 	}
 	public boolean isVorhanden(){
@@ -37,9 +33,25 @@ public class Karton extends Schuh implements Serializable{
 	public String getID(){
 		return this.kartonID;
 	}
-	public void ablegen(Fach neuerOrt){
-		this.adresse.nehme(this);
-		neuerOrt.belegen(this);
-		this.adresse = neuerOrt;
+//geschuetzte Methoden
+	//
+	void ablegen(Fach whereto) throws fachvollException {
+		try {
+			this.adresse.nehme(this);
+			whereto.belegen(this);
+			this.adresse = whereto;
+		} catch (Exception e){
+			System.out.println("Dieser Karton kann nicht versetzt werden: " + e.getMessage());
+		} finally {
+			
+		}
 	}
+	void remove(){
+		this.abgang = new Timestamp(System.currentTimeMillis());
+		this.ablegen(SchuLa.abgang);
+	}
+	public Schuh getInhalt(){
+		return this.inhalt;
+	}
+	
 }
