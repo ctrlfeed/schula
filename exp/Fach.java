@@ -1,9 +1,10 @@
 package exp;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public class Fach extends Regal{
+public class Fach extends Regal implements Serializable{
 	private String bezeichner;
 	private int kapazitaet;
 	private Timestamp letzterZugriff;
@@ -13,8 +14,8 @@ public class Fach extends Regal{
 		this.kapazitaet = kap;
 		this.bezeichner = bez;
 	}
-	public String name(){
-		return super.name()+"."+this.name();
+	public String getID(){
+		return super.getID()+"."+this.getID();
 	}
 	public int freiraum(){
 		return kapazitaet - inhalte.size();
