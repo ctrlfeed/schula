@@ -1,6 +1,7 @@
 package exp;
 
 import java.io.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -32,7 +33,11 @@ public class SchuLa extends File implements Serializable{
 	 *     die wiederum selbst als privates Datenelement in der Klasse gespeichert wird.
 	 */
 	
-//oeffentlicher Bereich: 
+public SchuLa(URI uri) {
+		super(uri);
+		// TODO Auto-generated constructor stub
+	}
+	//oeffentlicher Bereich: 
 	/*
 	 * @getSchuhList(): erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
 	 * Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprägt sind, die Anderen leer.
