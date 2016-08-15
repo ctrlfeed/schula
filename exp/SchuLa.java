@@ -12,24 +12,24 @@ import javax.swing.JOptionPane;
 public class SchuLa extends File implements Serializable{
 	/*
 	 * @author: Carl L. Fritze
-	 * @ansatz: SchuLa bildet den Single-point-of-Access, also den ausgewiesenen Anknuepfpunkt für 
+	 * @ansatz: SchuLa bildet den Single-point-of-Access, also den ausgewiesenen Anknuepfpunkt fï¿½r 
 	 * alle Bestandteile, die nicht zwingender Bestandteil der Software selbst sind.
 	 * Nutzer sollen in der Lage sein, mittels der oeffentlichen Methoden dieser Klasse die gewuenschten
-	 * Aktionen durchzuführen. Dies soll Folgendes bezwecken:
+	 * Aktionen durchzufï¿½hren. Dies soll Folgendes bezwecken:
 	 * 	- einfachere Anbindung von Komponenten (etwa GUI, andere Systemschnittstellen)
 	 *  - Konsistenz: da Einzelheiten der Software nicht gezielt ansteuerbar sind, sollen Manipulationen der Inhalte vermieden werden.
 	 *  - Transparenz: Entwicklern soll einfacher gemacht werden, den Quelltext nachzuvollziehen, in dem einzelne Szenarien gezielt verfolgt werden koennen.
 	 *  
 	 * @aufbau: jede Klasse von SchuLa ist jeweils in zwei Bereiche unterteilt:
 	 * 	1. oeffentliche Methoden: zu erkennen an dem Kennzeichen "public" stellen diese eine Komponente
-	 * 	   des Programmes dar, die von außen ueber den Aufruf der Klasse direkt angesteuert werden koennen.
-	 *  2. geschützter Bereich: in diesem Bereich sind anschließend Konstanten, Variablen, Funktionen 
-	 *     und Methoden definiert, die nur für die Software ansteuerbar sein sollen.
+	 * 	   des Programmes dar, die von auï¿½en ueber den Aufruf der Klasse direkt angesteuert werden koennen.
+	 *  2. geschï¿½tzter Bereich: in diesem Bereich sind anschlieï¿½end Konstanten, Variablen, Funktionen 
+	 *     und Methoden definiert, die nur fï¿½r die Software ansteuerbar sein sollen.
 	 *     In diesem Bereich sollte das Access Level "public" gemieden werden.
 	 *     Grundsaetzlich sollten Datenelemente nicht direkt auf public gesetzt werden. Ebenso sollte eine
 	 *     Aenderung der gespeicherten Informationen nur ueber die Methoden der Klasse SchuLa oder entsprechend
 	 *     geschuetzte Methoden der Einzelklassen zugelassen werden. Ein solcher Schutz kann etwa die Forderung
-	 *     einer schwer zu erratenden Zeichenkette als notwendiger Parameter für diese kritischen Routinen sein,
+	 *     einer schwer zu erratenden Zeichenkette als notwendiger Parameter fï¿½r diese kritischen Routinen sein,
 	 *     die wiederum selbst als privates Datenelement in der Klasse gespeichert wird.
 	 */
 	
@@ -40,9 +40,9 @@ public SchuLa(URI uri) {
 	//oeffentlicher Bereich: 
 	/*
 	 * @getSchuhList(): erhalte ein Feld von Schuhen (eine Liste) von Schuhen, die im System gespeichert sind.
-	 * Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprägt sind, die Anderen leer.
-	 * Die Methode gibt Schuhe sortiert nach Anzahl der übereinstimmenden Merkmale maximal in Länge des Limits zurück.
-	 * Ist Limit auf "0" gesetzt, werden alle Schuhe mitgegeben, die in mindestens einem Merkmal übereinstimmen.
+	 * Mitgegeben werden soll ein Wert der Klasse Schuh, in dem alle gesuchten Merkmale ausgeprï¿½gt sind, die Anderen leer.
+	 * Die Methode gibt Schuhe sortiert nach Anzahl der ï¿½bereinstimmenden Merkmale maximal in Lï¿½nge des Limits zurï¿½ck.
+	 * Ist Limit auf "0" gesetzt, werden alle Schuhe mitgegeben, die in mindestens einem Merkmal ï¿½bereinstimmen.
 	 * Diese Option ist geschuetzt, da sie sich laufzeitkritisch auswirken kann. (siehe unten)
 	 */
 	public Schuh[] getSchuhlist(Schuh Vergleichswert, int Limit){
@@ -51,7 +51,7 @@ public SchuLa(URI uri) {
 			//nur vorraetige Exemplare pruefen
 			if (((Schuh) entry.getValue()).getAnzahl() > 0){
 				Schuh siterate = (Schuh) entry.getValue();
-				//die Zahl der übereinstimmenden Merkmale wird festgehalten, um eine Sortierung vornehmen zu können.
+				//die Zahl der ï¿½bereinstimmenden Merkmale wird festgehalten, um eine Sortierung vornehmen zu kï¿½nnen.
 				int score = 0;
 				if ((siterate.getMarke() == Vergleichswert.getMarke()) && (siterate.getMarke() != null)){
 					score +=1;
@@ -84,10 +84,10 @@ public SchuLa(URI uri) {
 				}
 				resultset.remove(leastcommon);
 			}
-			//trimmen ende, prüfe nächstes Element
+			//trimmen ende, prï¿½fe nï¿½chstes Element
 		}
 		//durchsuchen des Schuhkataloges und vorraetiger Elemente abgeschlossen.
-		//das ergebnis wird aus der variablen Hashtable in ein Feld fixer Größe überführt.
+		//das ergebnis wird aus der variablen Hashtable in ein Feld fixer Grï¿½ï¿½e ï¿½berfï¿½hrt.
 		ArrayList<Schuh> suchergebnis = new ArrayList<Schuh>();
 		for (String resID : resultset.keySet()){
 			//in Liste einsortieren, neue Elemente groesserer aehnlichkeit weiter nach vorn.
@@ -118,12 +118,12 @@ public SchuLa(URI uri) {
 				}
 			}
 		}
-		//wenn es nicht möglich gewesen sein sollte die Verstaumenge in einem Regal unter zu bringen,
-		//wäre zu erwarten, dass "resultset" nicht mit Fächern gefüllt wäre. Für den Fall sollte eine nicht zusammenhängende Variante gewählt werden.
+		//wenn es nicht mï¿½glich gewesen sein sollte die Verstaumenge in einem Regal unter zu bringen,
+		//wï¿½re zu erwarten, dass "resultset" nicht mit Fï¿½chern gefï¿½llt wï¿½re. Fï¿½r den Fall sollte eine nicht zusammenhï¿½ngende Variante gewï¿½hlt werden.
 		if (resultset.size() < verstaumenge && zusammenhaengend){
 			return platzfuer(verstaumenge-resultset.size(),false);
 		} else {
-			System.out.println("Unzureichend Lagerplatz für diese Menge.");
+			System.out.println("Unzureichend Lagerplatz fï¿½r diese Menge.");
 		}
 		return (Fach[]) (resultset.toArray());
 	}
@@ -134,9 +134,9 @@ public SchuLa(URI uri) {
 	 */
 	private File thisishome;
 	/* 
-	 * @Itr: Um eine eindeutige, instanzweite Identifizierung zu ermöglichen, wird fuer alle wiederkehrende Elemente 
+	 * @Itr: Um eine eindeutige, instanzweite Identifizierung zu ermï¿½glichen, wird fuer alle wiederkehrende Elemente 
 	 * je eine fortlaufende Nummer gefuehrt, die allerdings nicht direkt vergeben wird. Stattdessen ist sie ueber 
-	 * eine jeweilige ID generierende Methode geschützt automatisiert abrufbar (siehe untern)
+	 * eine jeweilige ID generierende Methode geschï¿½tzt automatisiert abrufbar (siehe untern)
 	 */
 	
 	//fortlaufende Nummer fuer Karton-IDs (=Anzahl unterscheidbarer Kartons im System seit Installation)
@@ -150,23 +150,23 @@ public SchuLa(URI uri) {
 	 * Faecher werden systematisch vergeben. Es wird unterstellt, dass ein Regal gleichgrosse rechtwinklige Faecher
 	 * umfasst. Diese werden mittels Entfernung vertikaler und horizontaler Entfernung von einer der Kanten nummeriert.
 	 * Dazu wird bei Anlage des Regals jedem Fach ein Zeilen und ein Spaltenwert zur Identifikation zugeordnet.
-	 * Bei unterschiedlich großen Fächern sind mehrere separate "fiktiv getrennte" Regale zu erfassen.
+	 * Bei unterschiedlich groï¿½en Fï¿½chern sind mehrere separate "fiktiv getrennte" Regale zu erfassen.
 	 */
 	private static int RegalItr;
 	
 	/*
 	 * @Lager: Das Lager wird mittels einer Hashtable von String(RegID) und dem Regal selbst abgebildet.
-	 * Die Entscheidung zu dieser Umsetzung lässt sich wie folgt begründen:
+	 * Die Entscheidung zu dieser Umsetzung lï¿½sst sich wie folgt begrï¿½nden:
 	 *  + Eine Hashtable ist beliebig um Elemente erweiterbar und bietet somit einen klaren Vortiel hinsichtlich
-	 *    der Flexibilität und Erweiterbarkeit gegenüber Feldern
-	 *  + Über eine Hashtable kann gezielt nach einem bestimmten Element innerhalb des Objektes gesucht werden.
+	 *    der Flexibilitï¿½t und Erweiterbarkeit gegenï¿½ber Feldern
+	 *  + ï¿½ber eine Hashtable kann gezielt nach einem bestimmten Element innerhalb des Objektes gesucht werden.
 	 *  + Eine Hashtable laesst einen Parallelen Zugriff zu. Unter dem Gedanken, dass perspektivisch mehrere Anfragen
-	 *    parallel gestellt würden, ließe dies einen performanten Vorteil zu.
-	 *  + Eine Hashtable sichert von sich aus, dass sie lückenfrei bleibt und sichert somit Konsistenz.
-	 *  Als Werte wurden die Klassen Regal und Schuh (unmittelbar) gewählt, da so das Objekt direkt referenziert wird und somit
-	 *  die verwalteten Objekte nicht als separate Objekte und Klassen außerhalb der Umgebung ansteuerbar sein muessen.
-	 *  Als Key wurde jeweils die Regal-ID gewaehlt, um so die Transparenz über die Klassen zu halten.
-	 *  Ein Regal, wie ein Schuh ist dabei grundsätzlich durch die jeweilige ID eindeutig identifizierbar.
+	 *    parallel gestellt wï¿½rden, lieï¿½e dies einen performanten Vorteil zu.
+	 *  + Eine Hashtable sichert von sich aus, dass sie lï¿½ckenfrei bleibt und sichert somit Konsistenz.
+	 *  Als Werte wurden die Klassen Regal und Schuh (unmittelbar) gewï¿½hlt, da so das Objekt direkt referenziert wird und somit
+	 *  die verwalteten Objekte nicht als separate Objekte und Klassen auï¿½erhalb der Umgebung ansteuerbar sein muessen.
+	 *  Als Key wurde jeweils die Regal-ID gewaehlt, um so die Transparenz ï¿½ber die Klassen zu halten.
+	 *  Ein Regal, wie ein Schuh ist dabei grundsï¿½tzlich durch die jeweilige ID eindeutig identifizierbar.
 	 *    
 	 */
 	private static Hashtable<String, Regal> lagerplatz;
@@ -175,9 +175,9 @@ public SchuLa(URI uri) {
 	
 	//Zugriff im Package notwendig:
 	/*
-	 * @umlauf:  Defnition zweier Pseudo-regale, als unbestimmter Ort, an dem Schuhkartons verweilen können,
+	 * @umlauf:  Defnition zweier Pseudo-regale, als unbestimmter Ort, an dem Schuhkartons verweilen kï¿½nnen,
 	 * allerdings dann nicht gezielt findbar sind. (trotzdem noch im Unternehmen, etwa in der Auslage oder Anprobe)
-	 * Veräußerte Kartons werden dem Fach abgang zugeordnet, sodass die Kartons mit abgangsdatum nachvollziehbar 
+	 * Verï¿½uï¿½erte Kartons werden dem Fach abgang zugeordnet, sodass die Kartons mit abgangsdatum nachvollziehbar 
 	 * weiterhin erfasst sind.
 	 */
 	static Fach umlauf;
@@ -199,8 +199,8 @@ public SchuLa(URI uri) {
 
 	/*
 	 * @addRegal: Eine Neue Instanz eines Regals wird per Konstruktor aufgerufen und
-	 * anschließend in die Verwaltung Lagerplatz unmittelbar aufgenommen.
-	 * Das neu erfasste Regal ist dadurch zur Speicherung von Objekten verfügbar. 
+	 * anschlieï¿½end in die Verwaltung Lagerplatz unmittelbar aufgenommen.
+	 * Das neu erfasste Regal ist dadurch zur Speicherung von Objekten verfï¿½gbar. 
 	 */
 	void addRegal(){
 		Regal r = new Regal();
@@ -214,11 +214,11 @@ public SchuLa(URI uri) {
 		if (altRegal.isEmpty()) {
 			lagerplatz.remove(altRegal.getID());
 		} else {
-			System.out.println("In dem Regal befinden sich noch Elemente. Bitte entferne diese, um das Regal anschließend zu löschen.");
+			System.out.println("In dem Regal befinden sich noch Elemente. Bitte entferne diese, um das Regal anschlieï¿½end zu lï¿½schen.");
 		}
 	}
 	/*
-	 * @addSchuh(): hinzufügen einer neuen Schuh-instanz als Eigenschaftskombination, der dann Kartons zugeordnet werden können.
+	 * @addSchuh(): hinzufï¿½gen einer neuen Schuh-instanz als Eigenschaftskombination, der dann Kartons zugeordnet werden kï¿½nnen.
 	 */
 	void addSchuh(Schuh eingabeschuh){
 		Schuh s = new Schuh(eingabeschuh.getStil(),eingabeschuh.getGroesse(),eingabeschuh.getFarbe(),eingabeschuh.getStil(),eingabeschuh.getName());
@@ -226,7 +226,7 @@ public SchuLa(URI uri) {
 	}
 	/*
 	 * addKarton(... ): Nehme einen neuen Karton in den Bestand auf/bilde ihn in dem System ab.
-	 * Ohne spezifizierten Rückgabewert findet, wird der Ort "umlauf" angenommen.
+	 * Ohne spezifizierten Rï¿½ckgabewert findet, wird der Ort "umlauf" angenommen.
 	 */
 	void addKarton(Schuh schuhzugang){
 		Karton k = new Karton(schuhzugang);
@@ -238,10 +238,17 @@ public SchuLa(URI uri) {
 	}
 	void moveKarton(Karton versetzterK, Fach neuesFach){
 		versetzterK.ablegen(neuesFach);
+		//optionaler Code
+//		Karton[] gleicheK = schuhkatalog.get(versetzterK.getInhalt().getID()).getKarton();
+//		for (Karton karton : gleicheK) {
+//			if (karton.getID() == versetzterK.getID()){
+//				karton.ablegen(Fach neuesFach);
+//			}
+//		}
 	}
 	/*
 	 * @getSchuhList(null):Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer 
-	 * Übereinstimmung zurückgegeben. (Inventur) -- geschuetzt da Laufzeitkritisch
+	 * ï¿½bereinstimmung zurï¿½ckgegeben. (Inventur) -- geschuetzt da Laufzeitkritisch
 	 */
 	Schuh[] Inventur(){
 		return this.getSchuhlist();

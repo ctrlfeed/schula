@@ -2,7 +2,7 @@ package exp;
 
 public class SchuLaX extends SchuLa {
 	/*
-	 * @info: Diese Klasse bietet zusätzliche Administrative und Management-Funktionen, die nicht allgemein
+	 * @info: Diese Klasse bietet zusï¿½tzliche Administrative und Management-Funktionen, die nicht allgemein
 	 * verfuegbar sein sollen.
 	 */
 	
@@ -30,13 +30,13 @@ public class SchuLaX extends SchuLa {
 	/*
 	 * @super: folgende Methoden werden der superclass uebernommen.
 	 * um eine Konsistenz der Objeckte sicherzustellen wird entsprechend auf das Mutterobjeckt verwiesen.
-	 * Durch die Referenzierung werden die Objekte über die Mutterklasse bezogen, statt in dieser Instanz separat geführt zu werden.
+	 * Durch die Referenzierung werden die Objekte ï¿½ber die Mutterklasse bezogen, statt in dieser Instanz separat gefï¿½hrt zu werden.
 	 */
 	public Schuh[] getSchuhlist(Schuh Vergleichswert, int Limit){
 		Schuh[] suchergebnis = super.getSchuhlist(Vergleichswert, Limit);
 		return suchergebnis;
 	}
-	//Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer Übereinstimmung zurückgegeben.
+	//Wird kein Limit mitgegeben, werden alle Ergebnisse mit mindestens einer ï¿½bereinstimmung zurï¿½ckgegeben.
 	public Schuh[] getSchuhlist(Schuh Vergleichswert){
 		Schuh[] suchergebnis = super.getSchuhlist(Vergleichswert, 0);
 		return suchergebnis;
@@ -51,8 +51,29 @@ public class SchuLaX extends SchuLa {
 	public Fach[] platzfuer(int verstaumenge, boolean zusammenhaengend){
 		return super.platzfuer(verstaumenge, zusammenhaengend);
 	}
-	public void addRegal(Schuh neuerSchuh){
-		
+	public void addRegal(){
+		super.addRegal();
+	}
+	public void addRegal(int breite, int hoehe, int kap){
+		super.addRegal(breite, hoehe, kap);
+	}
+	public void endRegal(Regal altRegal){
+		super.endRegal(altRegal);
+	}
+	public void addSchuh(Schuh neuerSchuh){
+		super.addSchuh(neuerSchuh);
+	}
+	//SchuLa soll neuen Karton abbilden als neues Karton Objekt mit Inhalt und Ablageort
+	//wird kein Ablageort spezifiziert, wird umlauf angenommen.
+	public void addKarton(Schuh schuhzugang){ super.addKarton(schuhzugang); }
+	public void addKarton(Schuh schuhzugang, Fach ablageFach){
+		super.addKarton(schuhzugang, ablageFach)
+	}
+	public void moveKarton(Karton versetzterK, Fach neuesFach){
+		super.moveKarton(versetzterK, neuesFach);
+	}
+	public Schuh[] Inventur(){
+		return super.Inventur();
 	}
 //geschuetzter Bereich
 	private String masterKey = "SchuLa2016";
