@@ -13,7 +13,7 @@ public abstract class Application {
 		load();
 	}
 
-	protected static Lager load() {
+	protected static SchuLa load() {
 		// TODO Auto-generated method stub
 		return null;
 	} //lade die persistent gemachten Lagerinformationen...
